@@ -71,56 +71,105 @@ export default async function DashboardPage() {
                     </h2>
                 </div>
 
-                <div className="grid gap-3">
+                <div className="grid gap-3 md:gap-4">
                     {posts.length === 0 ? (
-                        <div className="p-16 text-center text-muted-foreground bg-zinc-900/30 rounded-3xl border border-dashed border-white/10">
-                            <p>No scrolls found in the archive.</p>
-                            <Button variant="link" className="text-amber-500">Start Writing</Button>
+                        <div className="p-8 md:p-16 text-center text-muted-foreground bg-zinc-900/30 rounded-2xl md:rounded-3xl border border-dashed border-white/10">
+                            <p className="text-sm md:text-base">No scrolls found in the archive.</p>
+                            <Button variant="link" className="text-amber-500 text-sm md:text-base">Start Writing</Button>
                         </div>
                     ) : (
                         posts.map((post) => (
-                            <div key={post.id} className="group relative flex flex-col md:flex-row items-center gap-6 p-3 pr-6 bg-zinc-900/40 hover:bg-zinc-900/80 border border-white/5 hover:border-amber-500/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-amber-500/5">
-                                {/* Thumbnail */}
-                                <div className="w-full md:w-32 h-20 rounded-xl bg-zinc-950 overflow-hidden relative border border-white/5 group-hover:border-amber-500/20 transition-colors">
-                                    {post.coverImage ? (
-                                        <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-                                    ) : (
-                                        <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900" />
-                                    )}
-                                </div>
+                            <div key={post.id} className="group relative bg-zinc-900/40 hover:bg-zinc-900/80 border border-white/5 hover:border-amber-500/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-amber-500/5 overflow-hidden">
+                                {/* Mobile Layout */}
+                                <div className="flex flex-col p-4 md:hidden">
+                                    {/* Header with title and status */}
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="flex-1 min-w-0 pr-3">
+                                            <h3 className="font-heading font-bold text-base text-zinc-100 group-hover:text-amber-500 transition-colors line-clamp-2 leading-tight">{post.title}</h3>
+                                            <p className="text-xs text-zinc-500 font-mono mt-1 truncate">
+                                                <span className="opacity-50">/</span> {post.slug}
+                                            </p>
+                                        </div>
+                                        <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-1 ${post.published ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-amber-500'}`} title={post.published ? 'Published' : 'Draft'} />
+                                    </div>
 
-                                {/* Info */}
-                                <div className="flex-grow min-w-0 flex flex-col justify-center h-full space-y-1">
-                                    <h3 className="font-heading font-bold text-lg text-zinc-100 group-hover:text-amber-500 transition-colors truncate pr-4">{post.title}</h3>
-                                    <p className="text-xs text-zinc-500 font-mono flex items-center gap-2">
-                                        <span className="opacity-50">/</span> {post.slug}
-                                    </p>
-                                </div>
+                                    {/* Thumbnail */}
+                                    <div className="w-full h-24 rounded-lg bg-zinc-950 overflow-hidden relative border border-white/5 group-hover:border-amber-500/20 transition-colors mb-3">
+                                        {post.coverImage ? (
+                                            <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900" />
+                                        )}
+                                    </div>
 
-                                {/* Meta Chips */}
-                                <div className="flex md:flex items-center gap-3 mt-2 md:mt-0 w-full md:w-auto overflow-x-auto md:overflow-visible no-scrollbar pb-1 md:pb-0">
-                                    <div className="flex gap-2">
-                                        {post.tags.split(',').slice(0, 2).map(tag => (
-                                            <span key={tag} className="px-2 py-1 rounded-md bg-white/5 text-[10px] font-medium text-zinc-400 border border-white/5 whitespace-nowrap">
+                                    {/* Tags */}
+                                    <div className="flex gap-2 mb-3 flex-wrap">
+                                        {post.tags.split(',').slice(0, 3).map(tag => (
+                                            <span key={tag} className="px-2 py-1 rounded-md bg-white/5 text-[10px] font-medium text-zinc-400 border border-white/5">
                                                 {tag}
                                             </span>
                                         ))}
                                     </div>
-                                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${post.published ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-amber-500'}`} title={post.published ? 'Published' : 'Draft'} />
+
+                                    {/* Actions */}
+                                    <div className="flex gap-2 justify-end border-t border-white/5 pt-3">
+                                        <Link href={`/dashboard/${post.id}`}>
+                                            <Button size="sm" variant="ghost" className="h-8 px-3 text-zinc-400 hover:text-amber-500 hover:bg-amber-500/10 rounded-lg text-xs">
+                                                <Edit className="w-3 h-3 mr-1" /> Edit
+                                            </Button>
+                                        </Link>
+                                        <form action={deletePost.bind(null, post.id)}>
+                                            <Button size="sm" variant="ghost" className="h-8 px-3 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg text-xs">
+                                                <Trash2 className="w-3 h-3 mr-1" /> Delete
+                                            </Button>
+                                        </form>
+                                    </div>
                                 </div>
 
-                                {/* Floating Actions */}
-                                <div className="flex items-center gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-300 absolute right-4 top-4 md:top-auto md:right-4 md:relative md:right-auto bg-black/50 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-1 rounded-lg md:p-0">
-                                    <Link href={`/dashboard/${post.id}`}>
-                                        <Button size="icon" variant="ghost" className="h-8 w-8 text-zinc-400 hover:text-amber-500 hover:bg-amber-500/10 rounded-lg">
-                                            <Edit className="w-4 h-4" />
-                                        </Button>
-                                    </Link>
-                                    <form action={deletePost.bind(null, post.id)}>
-                                        <Button size="icon" variant="ghost" className="h-8 w-8 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
-                                            <Trash2 className="w-4 h-4" />
-                                        </Button>
-                                    </form>
+                                {/* Desktop Layout */}
+                                <div className="hidden md:flex md:flex-row md:items-center md:gap-6 md:p-4 md:pr-6">
+                                    {/* Thumbnail */}
+                                    <div className="w-32 h-20 rounded-xl bg-zinc-950 overflow-hidden relative border border-white/5 group-hover:border-amber-500/20 transition-colors flex-shrink-0">
+                                        {post.coverImage ? (
+                                            <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900" />
+                                        )}
+                                    </div>
+
+                                    {/* Info */}
+                                    <div className="flex-grow min-w-0 flex flex-col justify-center h-full space-y-1">
+                                        <h3 className="font-heading font-bold text-lg text-zinc-100 group-hover:text-amber-500 transition-colors truncate pr-4">{post.title}</h3>
+                                        <p className="text-xs text-zinc-500 font-mono flex items-center gap-2">
+                                            <span className="opacity-50">/</span> {post.slug}
+                                        </p>
+                                    </div>
+
+                                    {/* Meta Chips */}
+                                    <div className="flex items-center gap-3 flex-shrink-0">
+                                        <div className="flex gap-2">
+                                            {post.tags.split(',').slice(0, 2).map(tag => (
+                                                <span key={tag} className="px-2 py-1 rounded-md bg-white/5 text-[10px] font-medium text-zinc-400 border border-white/5 whitespace-nowrap">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${post.published ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-amber-500'}`} title={post.published ? 'Published' : 'Draft'} />
+                                    </div>
+
+                                    {/* Floating Actions */}
+                                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                        <Link href={`/dashboard/${post.id}`}>
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-zinc-400 hover:text-amber-500 hover:bg-amber-500/10 rounded-lg">
+                                                <Edit className="w-4 h-4" />
+                                            </Button>
+                                        </Link>
+                                        <form action={deletePost.bind(null, post.id)}>
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg">
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         ))
