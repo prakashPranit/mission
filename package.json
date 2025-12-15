@@ -7,7 +7,13 @@
     "build": "prisma generate && prisma migrate deploy && next build",
     "build:prisma": "prisma generate && prisma migrate deploy",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.8",
@@ -47,6 +53,7 @@
     "eslint-config-next": "16.0.10",
     "prisma": "^5.10.0",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

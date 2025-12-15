@@ -182,7 +182,7 @@ export function PostEditor({ post }: PostEditorProps) {
                 <div className="lg:col-span-2 space-y-8">
                     <Input
                         placeholder="Enter Chronicle Title..."
-                        className="text-5xl font-bold font-heading border-b-2 border-border/10 px-0 h-auto focus-visible:ring-0 focus-visible:border-amber-500 placeholder:text-foreground/20 bg-transparent text-white drop-shadow-sm rounded-none transition-all duration-300"
+                        className="text-5xl font-bold font-heading border-b-2 border-gray-500 p-2 h-auto focus-visible:ring-0 focus-visible:border-amber-500 placeholder:text-white bg-transparent text-white drop-shadow-sm rounded transition-all duration-300"
                         value={title}
                         onChange={(e) => {
                             setTitle(e.target.value);
