@@ -160,20 +160,20 @@ export function PostEditor({ post }: PostEditorProps) {
     };
 
     return (
-        <div className="max-w-5xl mx-auto pb-40 pt-24">
+        <div className="max-w-5xl mx-auto pb-40 pt-24 px-4 md:px-6">
             {/* Header / Actions */}
-            <div className="flex items-center justify-between py-4 sticky top-20 z-40 bg-background/80 backdrop-blur-md mb-8 border-b border-border rounded-xl px-4 mt-4">
+            <div className="flex items-center justify-between py-4 sticky top-4 md:top-20 z-40 bg-background/80 backdrop-blur-md mb-8 border-b border-border rounded-xl px-4 mt-4">
                 <div className="flex items-center gap-4">
                     <Button variant="ghost" size="icon" onClick={() => router.back()}>
                         <ArrowLeft className="w-4 h-4" />
                     </Button>
-                    <h1 className="text-xl font-bold font-heading">
+                    <h1 className="text-lg md:text-xl font-bold font-heading">
                         {post ? 'Edit Chronicle' : 'New Chronicle'}
                     </h1>
                 </div>
                 <Button onClick={handleSave} disabled={isSaving} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                     {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    {isSaving ? 'Saving...' : 'Publish'}
+                    <span className="hidden md:inline">{isSaving ? 'Saving...' : 'Publish'}</span>
                 </Button>
             </div>
 
@@ -182,7 +182,7 @@ export function PostEditor({ post }: PostEditorProps) {
                 <div className="lg:col-span-2 space-y-8">
                     <Input
                         placeholder="Enter Chronicle Title..."
-                        className="text-5xl font-bold font-heading border-b-2 border-gray-500 p-2 h-auto focus-visible:ring-0 focus-visible:border-amber-500 placeholder:text-white bg-transparent text-white drop-shadow-sm rounded transition-all duration-300"
+                        className="text-3xl md:text-5xl font-bold font-heading border-b-2 border-gray-500 p-2 h-auto focus-visible:ring-0 focus-visible:border-amber-500 placeholder:text-white bg-transparent text-white drop-shadow-sm rounded transition-all duration-300"
                         value={title}
                         onChange={(e) => {
                             setTitle(e.target.value);
@@ -236,7 +236,7 @@ export function PostEditor({ post }: PostEditorProps) {
                 </div>
 
                 {/* Sidebar Metadata */}
-                <div className="space-y-6 lg:sticky lg:top-32 h-fit">
+                <div className="space-y-6 lg:sticky lg:top-32 h-fit order-last lg:order-none">
                     <div className="bg-card/30 border border-white/10 rounded-xl p-6 space-y-6 backdrop-blur-md shadow-xl">
                         <h3 className="font-heading font-bold text-lg text-primary flex items-center gap-2">
                             <span className="w-1 h-4 bg-amber-500 rounded-full" /> Metadata

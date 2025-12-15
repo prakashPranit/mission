@@ -20,11 +20,11 @@ export default async function DashboardPage() {
     const draftPosts = totalPosts - publishedPosts;
 
     return (
-        <div className="container mx-auto px-6 pt-24 pb-12 max-w-7xl min-h-screen">
+        <div className="container mx-auto px-4 md:px-6 pt-24 pb-12 max-w-7xl min-h-screen">
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
                 <div>
-                    <h1 className="text-3xl font-bold font-heading mb-2 text-foreground">Dashboard</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold font-heading mb-2 text-foreground">Dashboard</h1>
                     <p className="text-muted-foreground">Manage your chronicles and artifacts.</p>
                 </div>
                 <div className="flex gap-4">
@@ -42,7 +42,7 @@ export default async function DashboardPage() {
             </div>
 
             {/* Dashboard Overview - Bento Style */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12">
                 {[
                     { label: "Total Chronicles", value: totalPosts, icon: FileText, color: "text-blue-400", bg: "from-blue-500/20 to-transparent" },
                     { label: "Published", value: publishedPosts, icon: CheckCircle, color: "text-green-400", bg: "from-green-500/20 to-transparent" },
@@ -98,19 +98,19 @@ export default async function DashboardPage() {
                                 </div>
 
                                 {/* Meta Chips */}
-                                <div className="hidden md:flex items-center gap-3">
+                                <div className="flex md:flex items-center gap-3 mt-2 md:mt-0 w-full md:w-auto overflow-x-auto md:overflow-visible no-scrollbar pb-1 md:pb-0">
                                     <div className="flex gap-2">
                                         {post.tags.split(',').slice(0, 2).map(tag => (
-                                            <span key={tag} className="px-2 py-1 rounded-md bg-white/5 text-[10px] font-medium text-zinc-400 border border-white/5">
+                                            <span key={tag} className="px-2 py-1 rounded-md bg-white/5 text-[10px] font-medium text-zinc-400 border border-white/5 whitespace-nowrap">
                                                 {tag}
                                             </span>
                                         ))}
                                     </div>
-                                    <div className={`w-2 h-2 rounded-full ${post.published ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-amber-500'}`} title={post.published ? 'Published' : 'Draft'} />
+                                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${post.published ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-amber-500'}`} title={post.published ? 'Published' : 'Draft'} />
                                 </div>
 
                                 {/* Floating Actions */}
-                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 absolute right-4 md:relative md:right-auto bg-black/50 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-1 rounded-lg md:p-0">
+                                <div className="flex items-center gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-300 absolute right-4 top-4 md:top-auto md:right-4 md:relative md:right-auto bg-black/50 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-1 rounded-lg md:p-0">
                                     <Link href={`/dashboard/${post.id}`}>
                                         <Button size="icon" variant="ghost" className="h-8 w-8 text-zinc-400 hover:text-amber-500 hover:bg-amber-500/10 rounded-lg">
                                             <Edit className="w-4 h-4" />
